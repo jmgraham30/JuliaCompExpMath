@@ -12,5 +12,5 @@ Jason M. Graham
 5) [Jupyter](https://jupyter.org/)
 6) [Weave](https://github.com/JunoLab/Weave.jl)
 7) Packages
-    a) [JuliaHub](https://juliahub.com/ui/Home)
-    b) [JuliaPackages](https://juliapackages.com/)
+    1) [JuliaHub](https://juliahub.com/ui/Home)
+    2) [JuliaPackages](https://juliapackages.com/)
