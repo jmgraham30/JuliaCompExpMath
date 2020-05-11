@@ -1,9 +1,9 @@
 # Julia: A Tool for Computational and Experimental Mathematics?
 Jason M. Graham
 
-[github](https://github.com/jmgraham30)
+[GitHub](https://github.com/jmgraham30)
 
-[homepage](https://sites.google.com/site/jasonmgrahamus/)
+[Homepage](https://sites.google.com/site/jasonmgrahamus/)
 
 ## Some Useful Links
 
