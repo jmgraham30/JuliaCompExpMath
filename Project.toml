@@ -1,5 +1,6 @@
 [deps]
 AbstractAlgebra = "c3fe647b-3220-5bb0-a1ea-a7954cac585d"
+BasicNT = "19e8fb6a-f911-474c-af47-316326d4397e"
 Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
