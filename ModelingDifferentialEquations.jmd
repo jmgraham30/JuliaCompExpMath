@@ -1,0 +1,267 @@
+
+# Modeling Differential Equations with Julia and [DifferentialEquations.jl](https://docs.sciml.ai/stable/)
+
+
+
+DifferentialEquations.jl is a package for Julia that provides a superb suite of high quality implementations for numerical solvers for differential equations problems. We recommend the following videos for a tutorial and more information:
+
+1. [Intro to solving DEs in Julia](https://www.youtube.com/watch?v=KPEqYtEd-zY&feature=youtu.be)
+2. [Juia and DifferentialEquations.jl](https://www.youtube.com/watch?v=zJ3R6vOhibA&t=1490s)
+
+In this notebook we will mske use of several Julia packages:
+
+1. [DifferentialEquations.jl](https://docs.sciml.ai/stable/) is the main library for the numerical solution of most any kind of differential equations problem. This package is large but very well-documented and there are tutorial videos and lecture notes that are very helpful to get started using Julia for differential equations. 
+2. [ParameterizedFunctions.jl](https://docs.sciml.ai/v1.10/analysis/parameterized_functions.html) makes it easier to express differential equations in notation that is much closer to typical mathematical notation. Furthermore, using parameterized functions helps with optimizing code and is essential for parameter estimation in Julia. 
+3. [Latexify.jl](https://korsbo.github.io/Latexify.jl/stable/) provides functions for displaying Julia code in $\LaTeX$.
+4. [Plots.jl](http://docs.juliaplots.org/latest/) is plotting library for Julia that provides a common approach to plotting for a large number of backends such as [PyPlot.jl](https://github.com/JuliaPy/PyPlot.jl). 
+5. Later in this notebook we also make use of [DynamicalSystems.jl](https://juliadynamics.github.io/DynamicalSystems.jl/v1.3/) which is a library for the modeling and analysis of both discrete and continuous dynamical systems. For continuous dynamical systems DynamicalSystems.jl interfaces with DifferentialEquations.jl. 
+
+To procceed we next load each of these packages. 
+
+```julia
+# Load necessary packages with using keyword
+using DifferentialEquations, ParameterizedFunctions, Latexify, Plots; pyplot();
+```
+
+In order to illustrate the numerical solution of differential equations in Julia, let's use the [Lotka-Volterra](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations) equations that model simple predator-prey interactions as a running example. These equations take the following general form:
+
+$\frac{dx}{dt} = \alpha x - \beta x y$
+
+$\frac{dy}{dt} = \gamma xy - \delta y$
+
+where $x(t)$ is the prey population and $y(t)$ is the predator population.  
+
+General a differential equation problem will have the general form
+
+$\frac{du}{dt} = F(u,t)$
+
+where $u$ and $F$ may be vector functions. In order to obtain a unique solution to a differential equation one also requires the specification of an initial value $u_{0} = u(t_{0})$ where the equation is to be solved over a time interval $[t_{0},t_{1}]$. 
+
+Pretty much all implementations for numerical methods for solving differential equations require four pieces of information:
+
+1. Code in the form of a function that describe the differential equation(s). 
+2. The specification of values for any and all parameters. 
+3. The specification of initial values. 
+4. The specification of the time interval over which solutions are to be sought. 
+
+Let's see how each of these parts are done in Julia. 
+
+One way to describe the system
+
+$\frac{dx}{dt} = \alpha x - \beta x y$
+
+$\frac{dy}{dt} = \gamma xy - \delta y$
+
+in Julia code is as follows:
+
+```julia
+# create function to model right hand side
+function lv_f1(du,u,p,t)
+    x,y = u # unpack the vector components
+    α,β,γ,δ = p # unpack the parameters
+    du[1] = α*x - β*x*y
+    du[2] = γ*x*y - δ*y
+end
+```
+
+Now we specify the parameters, initial values, and time interval in Julia. 
+
+```julia
+# specify parameters and initial conditions
+p = (1.5,1.0,3.0,1.0);
+u0 = [1.0,1.0];
+
+# specify time interval
+tspan = (0.0,10.0);
+```
+
+Next, we put all the four parts of the specification of a differential equations problem together into an ODEProblem:
+
+```julia
+prob1 = ODEProblem(lv_f1,u0,tspan,p)
+```
+
+Finally, we solve our problem. 
+
+```julia
+sol1 = solve(prob1);
+```
+
+What should we do with the output from the call to the solve function? One option is that we can simply plot out solution: 
+
+```julia
+# can just plot the solution
+plot(sol1)
+```
+
+```julia
+# if we want a phase-plane plot
+plt=plot(sol1,vars=(1,2))
+```
+
+It's a good idea to understand what information is contained in the solution object. 
+
+```julia
+# access time values
+sol1.t
+```
+
+This accesses the time values from $t_{0}=0$ to $t_{1} = 10$ at which the numerical solver estimated the values of the solutions. That is, these are our time-points. Note that this is a one-dimensional array (a vector). We can also access the values of the numerical solution at these time-points as follows: 
+
+```julia
+# access solution values
+sol1.u
+```
+
+Note that this is a one-dimensional array of one-dimensional arrays. If you use a language like MATLAB you might be used to obtaining the numerical solution to differential equations as a matrix. We can get the same thing in Julia as follows:
+
+```julia
+sol1matrix = convert(Array,sol1)
+```
+
+Then we can use this format to make plots such as follows:
+
+```julia
+p1 = plot(sol1.t, sol1matrix[1,:],xaxis="Time (t)",yaxis="Prey x(t)",lw=2) # plot prey population as a function of time
+p1 = scatter!(sol1.t, sol1matrix[1,:])
+p2 = plot(sol1.t, sol1matrix[2,:],xaxis="Time (t)",yaxis="Predator y(t)",lw=2) # plot predator population as a function of time
+p2 = scatter!(sol1.t, sol1matrix[2,:])
+plot(p1, p2, layout = (1, 2), legend = false)
+```
+
+Notice that this is note as smooth as the previous graph!
+
+### Solutions to Differential Equations are Continuous Functions!
+
+Note that the first two time points for which the numerical solution is obtained are:
+
+```julia
+# a single time-point
+println(sol1.t[1])
+println(sol1.t[2])
+```
+
+Suppose we want the solution value at some time between 0.0 and 0.75, say for example 0.01. This can actually be obtained from our solution object as follows:
+
+```julia
+sol1(0.01)
+```
+
+Thus solution output from the solve function allows for continuous interpolation.
+
+We can use this, for example, to obtain a smoother plot. 
+
+```julia
+tvals = 0.0:0.01:10.0;
+solvals = sol1.(tvals);
+solvalsmatrix = hcat(solvals...)';
+solvalsmatrix = hcat(tvals,solvalsmatrix);
+p1 = plot(solvalsmatrix[:,1], solvalsmatrix[:,2],xaxis="Time (t)",yaxis="Prey x(t)",lw=2) # plot prey population as a function of time
+p2 = plot(solvalsmatrix[:,1], solvalsmatrix[:,3],xaxis="Time (t)",yaxis="Prey x(t)",lw=2) # plot prey population as a function of time
+plot(p1, p2, layout = (1, 2), legend = false)
+```
+
+```julia
+# or if we want a phase-plane plot
+plt=plot(solvalsmatrix[:,2],solvalsmatrix[:,3])
+```
+
+Suppose that we want to "fill in" the phase plane with trajectories corresponding to several different initial conditions? We can easily do this as, for example, with:
+
+```julia
+u01 = 0.0:0.1:1.0;
+u02 = ones(length(u01))
+u0M = [u01 u02];
+
+n = size(u0M)[1];
+for i = 1:n
+    u0 = u0M[i,:];
+    prob = ODEProblem(lv_f1,u0,tspan,p);
+    sol = solve(prob);
+    plt=plot!(sol,vars=(1,2))
+end
+
+plt = plot!(legend=false)
+```
+
+### Using Parameterized Functions
+
+This provides another way to express the differential equation in Julia code to provide to a numerical solver. 
+
+```julia
+# here right hand side is specified as a parameterized function
+predatorprey! = @ode_def PredatorPrey begin
+  dx = α*x - β*x*y
+  dy = γ*x*y - δ*y
+end α β γ δ
+```
+
+We can obtain the $\LaTeX$ expression of a parameterized function!
+
+```julia
+latexify(predatorprey!)
+```
+
+Now let's solve this system again. 
+
+```julia
+p = (1.5,1.0,3.0,1.0); # parameters
+u0 = [1., 1.]; # initial conditions
+tspan = (0., 10.); # time interval 
+prob = ODEProblem(predatorprey!, u0, tspan, p);
+sol = solve(prob);
+```
+
+```julia
+plot(sol,linewidth=2,title="Solution to ODE system",
+xaxis="Time (t)",yaxis="x(t),y(t) (in number of species)",label=["prey" "predator"])
+```
+
+```julia
+p = plot(sol,vars = (1,2), xlims = (-0.1,3), title = "Phase Space Plot", xaxis = "Prey", yaxis = "Predator", leg=false)
+function phase_plot(prob, u0, parms, p, tspan=10.0)
+    _prob = ODEProblem(prob.f,u0,(0.0,tspan),parms)
+    sol = solve(_prob,Vern9()) # Use Vern9 solver for higher accuracy
+    plot!(p,sol,vars = (1,2), xlims = nothing, ylims = nothing)
+end
+for i in 0.:0.1:2.0
+    for j in 0.:0.1:1.0
+        phase_plot(prob, [j,i],[1.5,1.0,3.0,1.0],p)
+    end
+end
+plot(p,xlims = (-0.1,3))
+```
+
+### Another Approach Using [DynamicalSystems.jl](https://juliadynamics.github.io/DynamicalSystems.jl/latest/)
+
+```julia
+using DynamicalSystems
+```
+
+```julia
+# create function to model right hand side
+function ppsys!(du,u,p,t)
+    x,y = u
+    α,β,γ,δ = p
+    du[1] = α*x - β*x*y
+    du[2] = γ*x*y - δ*y
+    return nothing
+end
+```
+
+```julia
+p = (1.5,1.0,3.0,1.0);
+u0 = [1.0,1.0];
+hh = ContinuousDynamicalSystem(ppsys!,u0,p);
+```
+
+```julia
+tr = trajectory(hh,10.0,dt=0.01)
+```
+
+```julia
+plot(tr[:,1],tr[:,2],legend=false)
+```
+
+```julia
+```
