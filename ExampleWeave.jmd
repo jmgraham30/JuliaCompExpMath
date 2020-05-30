@@ -1,0 +1,46 @@
+---
+title: Example Weave Documents
+author: JMG
+date: June 24, 2020
+---
+
+
+# Introduction
+
+This is an example of a [Weave.jl]() document that allows one
+to integrate Julia code, text, and mathematical notation.
+
+```julia; echo=false
+using DifferentialEquations, ParameterizedFunctions, Latexify, Plots; pyplot();
+```
+
+Suppose that we want to solve the Lotka-Volterra predator-prey equations in Julia. The system is coded as
+
+```julia
+# here right hand side is specified as a parameterized function
+predatorprey! = @ode_def PredatorPrey begin
+  dx = α*x - β*x*y
+  dy = γ*x*y - δ*y
+end α β γ δ
+```
+In mathematical notation this is
+$\begin{align}
+\frac{dx(t)}{dt} =& \alpha \mathrm{x}\left( t \right) - \beta \mathrm{x}\left( t \right) \mathrm{y}\left( t \right) \\
+\frac{dy(t)}{dt} =& \gamma \mathrm{x}\left( t \right) \mathrm{y}\left( t \right) - \delta \mathrm{y}\left( t \right)
+\end{align}$
+
+
+where $x(t)$ is the prey population at time $t$ and $y(t)$ is the predator population at time $t$.
+
+Here are some results.
+```julia
+p = (1.5,1.0,3.0,1.0); # parameters
+u0 = [1., 1.]; # initial conditions
+tspan = (0., 10.); # time interval
+prob = ODEProblem(predatorprey!, u0, tspan, p);
+sol = solve(prob);
+```
+
+```julia; echo=false
+plot(sol,lw=2,title="Solution to ODE system",xaxis="Time (t)",yaxis="x(t),y(t) (in number of species)",label=["prey" "predator"])
+```
