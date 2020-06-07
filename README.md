@@ -5,7 +5,7 @@ Jason M. Graham
 
 [Homepage](https://sites.google.com/site/jasonmgrahamus/)
 
-## Description of Contents
+## Obtaining Repository Contents
 
 This repository contains material corresponding to a talk, "Julia: A Tool for Computational and Experimental Mathematics?" given
 as part of the 2020 REU [Research Challenges of Computational and Experimental Mathematics](https://www.moravian.edu/mathematics/reu).
@@ -50,6 +50,14 @@ Pkg.instantiate()
 
 This should install all of the packages used in the notebooks from this repository.
 
+If you want to install individual packages in Julia, see the [package manager documentation](https://docs.julialang.org/en/v1/stdlib/Pkg/index.html).
+
+## Description of Contents Relevant for the Talk
+
+1) REU Talk slides - REUtalk.ipynb
+2) Notebook on modeling with differential equations in Julia - ModelingDifferentialEquations.ipynb
+3) Notebook on modeling probability and randomness - ModelingProbability.ipynb
+4) Notebook on sybolic algebra - JuliaAlgebra.ipynb
 
 ## Some Useful Links
 
