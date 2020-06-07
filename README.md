@@ -30,7 +30,7 @@ Once you have obtained Julia, Jupyter, and the files from this repository you ca
 
 `pkg>`
 
-type the following:
+run the following:
 
 `activate .`
 
