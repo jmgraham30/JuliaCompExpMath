@@ -7,10 +7,10 @@ Jason M. Graham
 
 ## Obtaining Repository Contents
 
-This repository contains material corresponding to a talk, "Julia: A Tool for Computational and Experimental Mathematics?" given
+This repository contains material (a detailed decscription of contents follows) corresponding to a talk, "Julia: A Tool for Computational and Experimental Mathematics?" given
 as part of the 2020 REU [Research Challenges of Computational and Experimental Mathematics](https://www.moravian.edu/mathematics/reu).
 
-To access and use the material in this repo you will need to install Julia and Jupyter notebooks. [This video](https://www.youtube.com/watch?v=oyx8M1yoboY) explains how to get up and running with Julia and Jupyter. Alternatively, you can access Julia and Jupyter notebooks through the cloud via [JuliaBox](https://juliabox.com/).
+To access and use the material in this repo you will need access to Julia and an ability to run Jupyter notebooks. [This video](https://www.youtube.com/watch?v=oyx8M1yoboY) demonstrates one way to get up and running with Julia and Jupyter. You can also install [Julia Pro](https://juliacomputing.com/products/juliapro), [this video](https://www.youtube.com/watch?v=ei-xnVid3QY&t=15s) explains how to do this. Alternatively, you can access Julia and Jupyter notebooks through the cloud via [JuliaBox](https://juliabox.com/).
 
 In order to obtain the material in this repository, you may either
 
