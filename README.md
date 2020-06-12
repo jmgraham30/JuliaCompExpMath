@@ -54,19 +54,21 @@ If you want to install individual packages in Julia, see the [package manager do
 
 ## Description of Contents Relevant for the Talk
 
-1) REU Talk slides - REUtalk.ipynb
-2) Notebook on modeling with differential equations in Julia - ModelingDifferentialEquations.ipynb
-3) Notebook on modeling probability and randomness - ModelingProbability.ipynb
-4) Notebook on sybolic algebra - JuliaAlgebra.ipynb
+1) REU Talk slides - [REUtalk.ipynb](https://github.com/jmgraham30/JuliaCompExpMath/blob/master/REUtalk.ipynb)
+2) Notebook on modeling with differential equations in Julia - [ModelingDifferentialEquations.ipynb](https://github.com/jmgraham30/JuliaCompExpMath/blob/master/ModelingDifferentialEquations.ipynb)
+3) Notebook on modeling probability and randomness - [ModelingProbability.ipynb](https://github.com/jmgraham30/JuliaCompExpMath/blob/master/ModelingProbability.ipynb)
+4) Notebook on symbolic algebra - [JuliaAlgebra.ipynb](https://github.com/jmgraham30/JuliaCompExpMath/blob/master/JuliaAlgebra.ipynb)
+5) Notebook [BasicNumberTheory.ipynb](https://github.com/jmgraham30/JuliaCompExpMath/blob/master/BasicNumberTheory.ipynb) that illustrates usage of [BasicNT.jl](https://github.com/jmgraham30/BasicNT.jl).
 
 ## Some Useful Links
 
-1) [Julia](https://julialang.org/)
-2) [JuliaBox](https://juliabox.com/)
-3) [Atom](https://atom.io/)
-4) [Juno](https://junolab.org/)
-5) [Jupyter](https://jupyter.org/)
-6) [Weave](https://github.com/JunoLab/Weave.jl)
-7) Packages
+1) [Julia](https://julialang.org/) for the Julia Language site.
+2) [JuliaBox](https://juliabox.com/) for running Julia via the cloud.
+3) [Atom](https://atom.io/) an open source IDE that supports Julia.
+4) [Juno](https://junolab.org/) an package for Atom that sets up an IDE for Julia.
+5) [Jupyter](https://jupyter.org/) notebook environment for interactive computing.
+6) [JuliaPro](https://juliacomputing.com/products/juliapro) provides a Julia installation that comes with many packages including Jupyter notebooks preinstalled.
+7) [Weave](https://github.com/JunoLab/Weave.jl) package for the integration of code and documentation. 
+8) Helpful lists of Julia packages:
     1) [JuliaHub](https://juliahub.com/ui/Home)
     2) [JuliaPackages](https://juliapackages.com/)
